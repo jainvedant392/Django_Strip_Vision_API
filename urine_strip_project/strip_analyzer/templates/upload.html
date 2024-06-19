@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Urine Strip Image - Urine Strip Analyzer{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Upload Urine Strip Image</h2>
+    <p>Please upload an image of your urine strip. The system will analyze the image and return the RGB values of the colors on the strip.</p>
+    <form id="uploadForm" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Upload</button>
+    </form>
+    <a href="{% url 'index' %}" class="btn">Back to Home</a>
+    
+    <div id="results" style="margin-top: 20px;">
+        <!-- Results will be injected here -->
+    </div>
+</div>
+
+<script>
+document.getElementById('uploadForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    let formData = new FormData(this);
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', '{% url "upload_image" %}');
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            let results = JSON.parse(xhr.responseText);
+            displayResults(results);
+        }
+    };
+    
+    xhr.send(formData);
+});
+
+function displayResults(results) {
+    let resultsDiv = document.getElementById('results');
+    resultsDiv.innerHTML = ''; // Clear previous results
+    
+    let table = document.createElement('table');
+    table.className = 'results-table';
+    
+    let thead = document.createElement('thead');
+    let headerRow = document.createElement('tr');
+    let headers = ['R', 'G', 'B'];
+    headers.forEach(headerText => {
+        let th = document.createElement('th');
+        th.textContent = headerText;
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+    
+    let tbody = document.createElement('tbody');
+    results.forEach(color => {
+        let row = document.createElement('tr');
+        let rgb = color['RGB'];
+        rgb.forEach(value => {
+            let td = document.createElement('td');
+            td.textContent = value;
+            row.appendChild(td);
+        });
+        tbody.appendChild(row);
+    });
+    table.appendChild(tbody);
+    
+    resultsDiv.appendChild(table);
+}
+</script>
+{% endblock %}

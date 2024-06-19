@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Urine Strip Analyzer{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Welcome to the Urine Strip Analyzer</h2>
+    <p>This tool allows you to analyze urine strip images and extract the RGB values of the colors on the strip. Upload an image of your urine strip to get started.</p>
+    <a href="{% url 'upload_image' %}" class="btn">Upload Urine Strip Image</a>
+</div>
+{% endblock %}
