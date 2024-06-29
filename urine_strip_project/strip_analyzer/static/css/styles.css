@@ -20,6 +20,7 @@ header {
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+    margin-bottom: 50px;
 }
 
 h2 {
@@ -56,6 +57,7 @@ footer {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    margin-bottom: 50px;
 }
 
 .results-table th, .results-table td {
@@ -71,4 +73,8 @@ footer {
 
 .results-table tr:nth-child(even) {
     background-color: #f9f9f9;
+}
+
+.uploaded-image {
+    height: 100px;
 }

@@ -13,6 +13,10 @@
     </form>
     <a href="{% url 'index' %}" class="btn">Back to Home</a>
     
+    <div id="uploaded-image" style="margin-top: 20px;">
+        <!-- Uploaded image will be displayed here -->
+    </div>
+
     <div id="results" style="margin-top: 20px;">
         <!-- Results will be injected here -->
     </div>
@@ -35,6 +39,26 @@ document.getElementById('uploadForm').addEventListener('submit', function(event)
     };
     
     xhr.send(formData);
+});
+
+document.querySelector('input[type="file"]').addEventListener('change', function(event) {
+    let fileInput = event.target;
+    let uploadedImageDiv = document.getElementById('uploaded-image');
+    uploadedImageDiv.innerHTML = ''; // Clear previous image
+    
+    if (fileInput.files && fileInput.files[0]) {
+        let reader = new FileReader();
+        
+        reader.onload = function(e) {
+            let img = document.createElement('img');
+            img.src = e.target.result;
+            img.style.maxWidth = '50%'; // Adjust the size as needed
+            img.style.height = '300px';
+            uploadedImageDiv.appendChild(img);
+        };
+        
+        reader.readAsDataURL(fileInput.files[0]);
+    }
 });
 
 function displayResults(results) {
