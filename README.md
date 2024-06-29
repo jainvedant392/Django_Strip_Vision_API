@@ -1,4 +1,4 @@
-# Urine Strip Project
+# Django Strip Vision API
 
 This Django project is designed for urine strip analysis.
 
